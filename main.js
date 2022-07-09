@@ -1,6 +1,7 @@
 const options = document.querySelector(".options");
 const winner = document.querySelector(".winner");
 const tryAgain = document.querySelector(".hide");
+const hands = document.querySelector(".hands");
 
 const game = () => {
   let pScore = 0;
@@ -26,7 +27,7 @@ const game = () => {
     hands.forEach((hand) => {
       hand.addEventListener("animationend", function () {
         this.style.animation = "";
-      });
+      }); 
     });
 
     //Computer Options
@@ -36,6 +37,7 @@ const game = () => {
     options.forEach((option) => {
       option.addEventListener("click", function () {
         //Computer Choice
+        winner.textContent = '';
         const computerNumber = Math.floor(
           Math.random() * computerOptions.length
         );
@@ -43,6 +45,7 @@ const game = () => {
 
         setTimeout(() => {
           compareHands(this.textContent, computerChoice);
+
 
           playerHand.src = `./images/${this.textContent}.png`;
           computerHand.src = `./images/${computerChoice}.png`;
@@ -62,7 +65,7 @@ const game = () => {
     computerScore.textContent = cScore;
   };
 
-  // Here is the compareHands function that checks who won each round
+  // Here is the compareHands function that checks who won each round, checks who was first to win 5 times, and end the game
 
   const compareHands = (playerChoice, computerChoice) => {
     // Updates Text
@@ -126,12 +129,15 @@ const game = () => {
 
     //end of compareHands function
   };
+
+  //Here is the endGame function, which is invoked at the check of every compareHands above
   function endGame() {
-    if (pScore === 5) {
+    if (pScore === 5 ) {
       winner.textContent = "Player wins the Game!";
       options.classList.add("remove");
       tryAgain.classList.add("reveal");
-     
+      hands.classList.add("hide");
+
       return;
     }
 
@@ -139,7 +145,8 @@ const game = () => {
       winner.textcontent = "Computer wins the Game!";
       options.classList.add("remove");
       tryAgain.classList.add("reveal");
-      
+      hands.classList.add("hide");
+
       return;
     }
   }
